@@ -10,12 +10,10 @@
     -WnckTasklist-fade-overlay-rect: 0;
     outline-color: @focus_border_color;
     outline-style: dashed;
-    outline-offset: -2px;
-    outline-width: 0px; /* disable ugly focus-line */
+    outline-offset: -3px;
+    outline-width: 1px;
     -gtk-outline-radius: 2px;
     -gtk-icon-style: regular; /* disable symbolic icons */
-    -GtkWindow-resize-grip-width: 11;
-    -GtkWindow-resize-grip-height: 11;
 }
 
 /***************
@@ -38,20 +36,25 @@ window {
 }
 
 *:disabled {
-    background-color: @insensitive_bg_color;
+/*    background-color: @insensitive_bg_color;*/
     color: @insensitive_fg_color;
     text-shadow: 1px 1px @insensitive_text_shadow_color;
     border-color: @insensitive_border_color;
 }
 
+/* Fix for applications that have issues finding a default monospace font */
+.monospace {
+  font-family: Monospace;
+}
+
 image,
 image:disabled,
-label,
-label:disabled,
+/*label,
+label:disabled,*/
 box,
 box:disabled,
-GtkGrid,
-GtkGrid:disabled {
+grid,
+grid:disabled {
     background-color: transparent;
 }
 
@@ -481,6 +484,14 @@ entry:disabled {
                       @entry_insensitive_bg_color 3px);
 }
 
+entry image.left {
+	padding-right: 6px;
+}
+
+entry image.right {
+	padding-left: 6px;
+}
+
 /*******************
  * Symbolic images *
  *******************/
@@ -539,8 +550,8 @@ colorchooser #add-color-button:selected:hover {
     color: @color_active_badge_dark_color;
 }
 
-GtkColorEditor colorswatch.color-light:hover,
-GtkColorEditor colorswatch.color-dark:hover {
+colorswatch.color-light:hover,
+colorswatch.color-dark:hover {
     background-image: none;
 }
 
@@ -681,18 +692,21 @@ scale.horizontal {
 }
 
 scale.horizontal trough {
-   min-height: 3px;
+    min-height: 3px;
     margin: 8px 0;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 scale.horizontal.marks-after trough {
     min-height: 3px;
 }
 
-scale trough,
 scale.vertical trough {
     min-width: 3px;
     margin: 0 6px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 scale trough {
@@ -752,32 +766,25 @@ scale slider:disabled {
 }
 
 scale.horizontal slider {
-    min-width: 28px;
-    margin: -9px 0px -9px 0px;
+    min-width: 21px;
+    margin: -6px 0px -9px 0px;
 }
 
 scale.vertical slider {
-    min-height: 30px;
-    margin: 0px -9px 0px -9px;
+    min-height: 21px;
+    margin: 0px -7px 0px -6px;
 }
 
 scale.horizontal.marks-after slider {
+    margin-top: -6px;
     background-repeat: no-repeat;
-    min-height: 22px;
-    background-size: 90%;
+    min-height: 16px;
 }
 
 scale.vertical slider,
 scale.horizontal slider {
-    background-size: 90%;
     background-repeat: no-repeat;
-    background-position: center;
-}
-
-scale.vertical slider:hover,
-scale.horizontal slider:hover,
-scale.horizontal.marks-after slider:hover {
-    background-size: 95%;
+    background-position: top;
 }
 
 scale.vertical.fine-tune slider,
@@ -827,7 +834,7 @@ scale progressbar {
  * Frames *
  **********/
 
-frame {
+.frame {
     border-width: 1px;
     border-color: @border_color;
     border-style: solid;
@@ -836,7 +843,24 @@ frame {
     padding: 0;
 }
 
-frame.flat {
+/* Style the Search and Location entry boxes for Firefox 49 */
+/* why frame and not entry ? FIXME */
+frame {
+    border-style: solid;
+    border-color: @border_color;
+}
+
+/* Override the Firefox 49 frame styling where is absolutely shouldn't be applied */
+/* maybe we should add more here */
+box > frame, /* mate-tweak */
+statusbar > frame, /* caja, etc. */
+statusbar > widget > frame, /* pluma */
+GvcMixerDialog frame { /* Mate Mixer dialog */
+    border-style: none;
+}
+
+frame.flat,
+.frame.flat {
    border-style:none;
 }
 
@@ -869,6 +893,7 @@ scrolledwindow viewport.frame {
 button {
     min-height: 16px;
     min-width: 16px;
+    outline-style: none;
 }
 
 button,
@@ -881,7 +906,7 @@ button.menuitem.menubar,
 .titlebar .linked.raised button:backdrop,
 .titlebar .linked.raised button:focus:hover,
 .titlebar .linked.raised button:focus:hover:active {
-    padding: 1px; /* larger values makes the button arrow smaller*/
+    padding: 5px 5px 6px; /* larger values makes the button arrow smaller*/
 }
 
 toolbar.inline-toolbar button,
@@ -993,6 +1018,13 @@ button * {
     background-color: transparent;
 }
 
+button:disabled image,
+.button:disabled image,
+button:active:disabled image,
+.button:active:disabled image{
+	 opacity: 0.4;
+}
+
 /* We may want a background for focused buttons, but in the meantime let's remove it too */
 GtkMenuToolButton *,
 toolbar.primary-toolbar button,
@@ -1094,6 +1126,28 @@ button separator {
     padding: 2px;
 }
 
+/* Single button */
+.linked entry:only-child,
+.linked button:only-child,
+.linked button:hover:only-child,
+.linked button:focus:only-child,
+.linked button:focus:hover:only-child,
+.linked button:focus:hover:active:only-child,
+.linked button:checked:only-child,
+.linked button:checked:hover:only-child,
+.linked button:checked:hover:active:only-child,
+.linked button:disabled:only-child {
+    border-image: none;
+    border-radius: 3px;
+    border-color: @border_color;
+    border-width: 1px;
+    padding: 4px 3px;
+}
+
+.linked entry:only-child {
+    padding: 4px;
+}
+
 /* vertical */
 
 /* Middle button */
@@ -1163,6 +1217,15 @@ button separator {
     border-width: 1px 1px 1px 0px;
 }
 
+.dialog-action-area.linked button.default,
+.dialog-action-area.linked button:focus {
+    border-color: @button_default_border_color;
+    box-shadow: inset  0px  1px @button_default_box_shadow_color,
+                inset  1px  0px @button_default_box_shadow_color,
+                inset -1px  0px @button_default_box_shadow_color,
+                inset  0px -1px @button_default_box_shadow_color;
+}
+
 /* Leftmost button */
 .dialog-action-area.linked button:first-child,
 .dialog-action-area.linked button:hover:first-child,
@@ -1175,6 +1238,15 @@ button separator {
 .dialog-action-area.linked button:disabled:first-child {
     padding: 2px;
     border-width: 1px 1px 1px 1px;
+}
+
+.dialog-action-area.linked button.default:first-child,
+.dialog-action-area.linked button:focus:first-child {
+    border-color: @button_default_border_color;
+    box-shadow: inset  0px  1px @button_default_box_shadow_color,
+                inset  1px  0px @button_default_box_shadow_color,
+                inset -1px  0px @button_default_box_shadow_color,
+                inset  0px -1px @button_default_box_shadow_color;
 }
 
 /* Rightmost button */
@@ -1191,6 +1263,38 @@ button separator {
     border-width: 1px 1px 1px 0px;
 }
 
+.dialog-action-area.linked button.default:last-child,
+.dialog-action-area.linked button:focus:last-child {
+    border-color: @button_default_border_color;
+    box-shadow: inset  0px  1px @button_default_box_shadow_color,
+                inset  1px  0px @button_default_box_shadow_color,
+                inset -1px  0px @button_default_box_shadow_color,
+                inset  0px -1px @button_default_box_shadow_color;
+}
+
+/* Single button */
+.dialog-action-area.linked button:only-child,
+.dialog-action-area.linked button:hover:only-child,
+.dialog-action-area.linked button:focus:only-child,
+.dialog-action-area.linked button:focus:hover:only-child,
+.dialog-action-area.linked button:focus:hover:active:only-child,
+.dialog-action-area.linked button:checked:only-child,
+.dialog-action-area.linked button:checked:hover:only-child,
+.dialog-action-area.linked button:checked:hover:active:only-child,
+.dialog-action-area.linked button:disabled:only-child {
+    padding: 4px 6px;
+    border-width: 1px;
+}
+
+.dialog-action-area.linked button.default:only-child,
+.dialog-action-area.linked button:focus:only-child {
+    border-color: @button_default_border_color;
+    box-shadow: inset  0px  1px @button_default_box_shadow_color,
+                inset  1px  0px @button_default_box_shadow_color,
+                inset -1px  0px @button_default_box_shadow_color,
+                inset  0px -1px @button_default_box_shadow_color;
+}
+
 /*****************
  * GtkSpinButton *
  *****************/
@@ -1203,6 +1307,10 @@ spinbutton:focus {
     border-radius: 3px;
     border-style: solid;
     border-color: @spinbutton_border_color;
+}
+
+spinbutton:focus {
+    border-color: shade (@theme_selected_bg_color, 1.0);
 }
 
 spinbutton.horizontal > entry,
@@ -1225,6 +1333,11 @@ spinbutton > button:focus:active {
     border-style: solid;
     border-color: @spinbutton_border_color;
     border-image: none;
+}
+
+spinbutton > button.default,
+spinbutton > button:focus {
+    box-shadow: none;
 }
 
 spinbutton > button:disabled {
@@ -1395,6 +1508,7 @@ toolbar .raised button:hover,
 toolbar combobox button.combo:hover,
 toolbar.primary-toolbar button:hover,
 toolbar.primary-toolbar combobox button.combo:hover,
+toolbar.primary-toolbar combobox button.combo:focus:hover,
 colorchooser #add-color-button:hover {
     background-color: transparent;
     background-image: linear-gradient(to bottom,
@@ -1427,7 +1541,9 @@ toolbar combobox button.combo:checked:disabled {
 }
 
 /* Focused primary toolbar button background */
-toolbar.primary-toolbar button:focus {
+toolbar button:focus,
+toolbar.primary-toolbar button:focus,
+toolbar.primary-toolbar combobox button.combo:focus {
     background-image: linear-gradient(to bottom,
                       @pt_button_focus_gradient_a,
                       @pt_button_focus_gradient_b 50%,
@@ -1436,6 +1552,7 @@ toolbar.primary-toolbar button:focus {
 }
 
 /* Focused + prelit primary toolbar button background */
+toolbar button:focus:hover,
 toolbar.primary-toolbar button:focus:hover {
     background-image: linear-gradient(to bottom,
                       @pt_button_focus_hover_gradient_a,
@@ -1593,12 +1710,34 @@ window.background > box.vertical > notebook:not(.frame),
 window.background.csd > box.vertical > notebook:not(.frame),
 window.background.ssd > box.vertical > notebook:not(.frame),
 window.background.solid-csd > box.vertical > notebook:not(.frame) {
+    margin: 0px;
     background-color: @notebook_bg_color;
     background-clip: border-box;
     border-radius: 3px 3px 0px 0px;
 }
 
+window.background > box.vertical > notebook:not(.frame) > stack > box,
+window.background.csd > box.vertical > notebook:not(.frame) > stack > box,
+window.background.ssd > box.vertical > notebook:not(.frame) > stack > box,
+window.background.solid-csd > box.vertical > notebook:not(.frame) > stack > box {
+    margin: 0px;
+    border-style: solid;
+    border-width: 0px 0.4px 0.4px 0.4px;
+    border-color: @notebook_border;
+}
+
+window.background > box.vertical > notebook:not(.frame) > header.top,
+window.background.csd > box.vertical > notebook:not(.frame) > header.top,
+window.background.ssd > box.vertical > notebook:not(.frame) > header.top,
+window.background.solid-csd > box.vertical > notebook:not(.frame) > header.top {
+    margin: 0px;
+    border-style: solid;
+    border-width: 0px 0px 0px 0.1px;
+    border-color: @theme_bg_color;
+}
+
 printdialog > box.view.vertical.dialog-vbox > box.vertical > notebook {
+    margin: 5px;
     background-color: @notebook_bg_color;
     border-radius: 0px;
     border-style: solid;
@@ -1622,14 +1761,18 @@ paned.horizontal notebook header {
 }
 
 notebook header.top {
+    margin: -1px -1px 0px 0px;
     border-width: 0px 0px 1px 0px;
     border-radius: 3px 3px 0px 0px;
-    background-image: linear-gradient(to bottom,
-                      shade(@notebook_tab_gradient_a, 1.05),
-                      shade(@notebook_tab_gradient_b, 1.05) 50%,
-                      shade(@notebook_tab_gradient_c, 1.05) 50%,
-                      shade(@notebook_tab_gradient_d, 1.05));
+    background-color: @theme_bg_color;
     box-shadow: inset  0px -1px 0 0 @border_color;
+}
+
+paned.horizontal notebook header.top {
+    margin: 0px;
+    border-width: 0px 0px 0px 0.1px;
+    border-style: solid;
+    border-color: @theme_bg_color;
 }
 
 printdialog > box.view.vertical.dialog-vbox > box.vertical > notebook > header.top {
@@ -1637,32 +1780,23 @@ printdialog > box.view.vertical.dialog-vbox > box.vertical > notebook > header.t
 }
 
 notebook header.bottom {
+    margin: 0px -1px -1px 0px;
     border-width: 1px 1px 0px 0px;
-    background-image: linear-gradient(to top,
-                      shade(@notebook_tab_gradient_a, 1.05),
-                      shade(@notebook_tab_gradient_b, 1.05) 50%,
-                      shade(@notebook_tab_gradient_c, 1.05) 50%,
-                      shade(@notebook_tab_gradient_d, 1.05));
+    background-color: @theme_bg_color;
     box-shadow: inset  0px  1px 0 0 @border_color;
 }
 
 notebook header.left {
+    margin: 0px 0px -1px -1px;
     border-width: 0px 1px 0px 0px;
-    background-image: linear-gradient(to right,
-                      shade(@notebook_tab_gradient_a, 1.05),
-                      shade(@notebook_tab_gradient_b, 1.05) 50%,
-                      shade(@notebook_tab_gradient_c, 1.05) 50%,
-                      shade(@notebook_tab_gradient_d, 1.05));
+    background-color: @theme_bg_color;
     box-shadow: inset -1px  0px 0 0 @border_color;
 }
 
 notebook header.right {
+    margin: 0px -1px -1px 0px;
     border-width: 0px 0px 0px 1px;
-    background-image: linear-gradient(to left,
-                      shade(@notebook_tab_gradient_a, 1.05),
-                      shade(@notebook_tab_gradient_b, 1.05) 50%,
-                      shade(@notebook_tab_gradient_c, 1.05) 50%,
-                      shade(@notebook_tab_gradient_d, 1.05));
+    background-color: @theme_bg_color;
     box-shadow: inset  1px  0px 0 0 @border_color;
 }
 
@@ -1691,20 +1825,17 @@ notebook header.top tab {
     border-radius: 3px 3px 0px 0px;
     background-image: linear-gradient(to bottom,
                       @notebook_tab_gradient_a,
-                      @notebook_tab_gradient_b 50%,
-                      @notebook_tab_gradient_c 50%,
                       @notebook_tab_gradient_d);
 }
 
 notebook header.top tab:checked {
     border-top-color: @notebook_active_tab_border;
-    border-width: 0px 1px 0px 1px;
+    border-left-color: @notebook_active_tab_border;
+    border-right-color: @notebook_active_tab_border;
+    border-width: 1px 1px 0px 1px;
     background-image: linear-gradient(to bottom,
-                      @notebook_active_tab_strip_gradient_a,
-                      @notebook_active_tab_strip_gradient_b 3px,
-                      @notebook_active_tab_strip_border_bottom_color 4px,
-                      @notebook_active_tab_gradient_a 4px,
-                      @notebook_active_tab_gradient_b);
+                      @notebook_active_tab_strip_gradient_b 1px,
+                      @notebook_active_tab_gradient_b 8px);
 }
 
 notebook header.right tab {
@@ -1714,45 +1845,37 @@ notebook header.right tab {
     border-radius: 0px 3px 3px 0px;
     background-image: linear-gradient(to left,
                       @notebook_tab_gradient_a,
-                      @notebook_tab_gradient_b 50%,
-                      @notebook_tab_gradient_c 50%,
                       @notebook_tab_gradient_d);
 }
 
 notebook header.right tab:checked {
-    padding: 2px 1px 2px 1px;
-    border-width: 1px 0px 1px 0px;
+    border-width: 1px 1px 1px 0px;
     border-right-color: @notebook_active_tab_border;
+    border-top-color: @notebook_active_tab_border;
+    border-bottom-color: @notebook_active_tab_border;
     background-image: linear-gradient(to left,
-                      @notebook_active_tab_strip_gradient_a,
-                      @notebook_active_tab_strip_gradient_b 3px,
-                      @notebook_active_tab_strip_border_bottom_color 4px,
-                      @notebook_active_tab_gradient_a 4px,
-                      @notebook_active_tab_gradient_b);
+                      @notebook_active_tab_strip_gradient_b 1px,
+                      @notebook_active_tab_gradient_b 8px);
 }
 
 notebook header.bottom tab {
     margin: 0px 0px 0px -1px;
     padding: 0px 1px 2px 1px;
-    border-width: 1px 1px 0px 1px;
+    border-width: 1px;
     border-radius: 0px 0px 3px 3px;
     background-image: linear-gradient(to top,
                       @notebook_tab_gradient_a,
-                      @notebook_tab_gradient_b 50%,
-                      @notebook_tab_gradient_c 50%,
                       @notebook_tab_gradient_d);
 }
 
 notebook header.bottom tab:checked {
-    padding: 1px 2px 2px 2px;
-    border-width: 0px 1px 0px 1px;
+    border-width: 0px 1px 1px 1px;
     border-bottom-color: @notebook_active_tab_border;
+    border-left-color: @notebook_active_tab_border;
+    border-right-color: @notebook_active_tab_border;
     background-image: linear-gradient(to top,
-                      @notebook_active_tab_strip_gradient_a,
-                      @notebook_active_tab_strip_gradient_b 3px,
-                      @notebook_active_tab_strip_border_bottom_color 4px,
-                      @notebook_active_tab_gradient_a 4px,
-                      @notebook_active_tab_gradient_b);
+                      @notebook_active_tab_strip_gradient_b 1px,
+                      @notebook_active_tab_gradient_b 8px);
 }
 
 notebook header.left tab {
@@ -1762,20 +1885,50 @@ notebook header.left tab {
     border-radius: 3px 0px 0px 3px;
     background-image: linear-gradient(to right,
                       @notebook_tab_gradient_a,
-                      @notebook_tab_gradient_b 50%,
-                      @notebook_tab_gradient_c 50%,
                       @notebook_tab_gradient_d);
 }
 
 notebook header.left tab:checked {
-    border-width: 1px 0px 1px 0px;
+    border-width: 1px 0px 1px 1px;
     border-left-color: @notebook_active_tab_border;
+    border-top-color: @notebook_active_tab_border;
+    border-bottom-color: @notebook_active_tab_border;
     background-image: linear-gradient(to right,
-                      @notebook_active_tab_strip_gradient_a,
-                      @notebook_active_tab_strip_gradient_b 3px,
-                      @notebook_active_tab_strip_border_bottom_color 4px,
-                      @notebook_active_tab_gradient_a 4px,
-                      @notebook_active_tab_gradient_b);
+                      @notebook_active_tab_strip_gradient_b 1px,
+                      @notebook_active_tab_gradient_b 8px);
+}
+
+/* outlines */
+notebook header tab:checked {
+    outline-color: @button_default_border_color;
+}
+
+notebook header.top tab:checked {
+    -gtk-outline-top-left-radius: 4px;
+    -gtk-outline-top-right-radius: 4px;
+    -gtk-outline-bottom-left-radius: 0px;
+    -gtk-outline-bottom-right-radius: 0px;
+}
+
+notebook header.bottom tab:checked {
+    -gtk-outline-top-left-radius: 0px;
+    -gtk-outline-top-right-radius: 0px;
+    -gtk-outline-bottom-left-radius: 4px;
+    -gtk-outline-bottom-right-radius: 4px;
+}
+
+notebook header.left tab:checked {
+    -gtk-outline-top-left-radius: 4px;
+    -gtk-outline-top-right-radius: 0px;
+    -gtk-outline-bottom-left-radius: 4px;
+    -gtk-outline-bottom-right-radius: 0px;
+}
+
+notebook header.right tab:checked {
+    -gtk-outline-top-left-radius: 0px;
+    -gtk-outline-top-right-radius: 4px;
+    -gtk-outline-bottom-left-radius: 0px;
+    -gtk-outline-bottom-right-radius: 4px;
 }
 
 /* close button styling */
@@ -2338,8 +2491,8 @@ menubar menuitem:hover,
     color: @menubar_menuitem_hover_color;
 }
 
-menu menuitem,
-.menu menuitem {
+menu > menuitem,
+.menu > menuitem {
     border-width: 1px 0px;
     border-style: solid;
     border-color: transparent;
@@ -2387,16 +2540,26 @@ menu menuitem:disabled,
     border-color: transparent;
 }
 
-menu menuitem accelerator:disabled,
-.menu menuitem accelerator:disabled {
-    color: mix (@menu_fg_color, @menu_bg_color, 0.7);
+menuitem:disabled image,
+.menuitem:disabled image,
+menuitem:active:disabled image,
+.menuitem:active:disabled image{
+	 opacity: 0.5;
 }
 
-menuitem accelerator {
+
+menu > menuitem accelerator,
+.menu > menuitem accelerator {
     color: alpha (@menu_fg_color, 0.4);
 }
 
-menuitem accelerator:hover {
+menu > menuitem:disabled > label > accelerator,
+.menu > menuitem:disabled > label > accelerator {
+    color: mix (@menu_fg_color, @menu_bg_color, 0.7);
+}
+
+menu > menuitem:hover > label > accelerator,
+.menu > menuitem:hover > label > accelerator {
     color: alpha (@menu_fg_color, 0.3);
 }
 
@@ -2482,6 +2645,12 @@ menu > menuitem:hover menu > menuitem:hover menu > menuitem:hover menu > menuite
     color: @menubar_menuitem_hover_color;
 }
 
+menu > menuitem:disabled > arrow,
+.menu > menuitem:disabled > arrow {
+    color: mix (@menu_fg_color, @menu_bg_color, 0.6);
+   -gtk-icon-shadow: none;
+}
+
 /* scroll arrows */
 menu > arrow,
 .menu > arrow {
@@ -2544,22 +2713,31 @@ menuitem separator {
 }
 
 /* style classes are for firefox */
+
 menuitem check,
-menuitem radio,
 menuitem check:hover,
-menuitem radio:hover,
 menuitem check:checked,
-menuitem radio:checked,
 menuitem check:disabled,
-menuitem radio:disabled,
 menu menuitem .check,
-menu menuitem .radio,
 menu menuitem .check:hover,
-menu menuitem .radio:hover,
 menu menuitem .check:checked,
+menu menuitem .check:disabled {
+    margin: 0px 0px 0px 3px;
+    background-image: none;
+    background-color: transparent;
+    min-height: 13px;
+    min-width: 13px;
+}
+
+menuitem radio,
+menuitem radio:hover,
+menuitem radio:checked,
+menuitem radio:disabled,
+menu menuitem .radio,
+menu menuitem .radio:hover,
 menu menuitem .radio:checked,
-menu menuitem .check:disabled,
 menu menuitem .radio:disabled {
+    margin: 1px 0px 0px 4px;
     background-image: none;
     background-color: transparent;
     min-height: 12px;
@@ -2591,6 +2769,8 @@ check:disabled,
 radio:disabled {
     background-color: transparent;
     border-style: none;
+    min-height: 16px;
+    min-width: 16px;
 }
 
 check,
@@ -2614,6 +2794,12 @@ checkbutton:active:hover,
 checkbutton:selected,
 checkbutton:selected:focus {
     background-color: transparent;
+}
+
+checkbutton.text-button,
+radiobutton.text-button {
+	padding: 1px 2px 4px;
+	outline-offset: 0;
 }
 
 /************
@@ -2924,7 +3110,7 @@ button.osd:checked:hover,
 button.osd:focus:hover:active,
 .osd button:checked,
 .osd button:checked:hover,
-.osd GtkMenuButton.menu-button:checked {
+.osd button.popup:checked {
     background-image: linear-gradient(to bottom,
                                       @osd_button_bg_active_a,
                                       @osd_button_bg_active_b 20%,
@@ -2939,7 +3125,7 @@ button.osd:focus:hover:active,
     border-right-width: 1px;
 }
 
-.osd GtkMenuButton.menu-button:checked {
+.osd button.popup:checked {
     background-color: transparent;
     border-color: @osd_button_border;
     color: @osd_button_fg_active;
@@ -3029,10 +3215,10 @@ toolbar.osd button:hover:only-child,
 toolbar.osd button:checked:only-child,
 toolbar.osd button:hover:active:only-child,
 toolbar.osd button:focus:hover:active:only-child,
-toolbar.osd GtkToolButton button,
-toolbar.osd GtkToolButton:only-child button,
-toolbar.osd GtkToolButton:last-child button,
-toolbar.osd GtkToolButton:first-child button {
+toolbar.osd toolbutton button,
+toolbar.osd toolbutton:only-child button,
+toolbar.osd toolbutton:last-child button,
+toolbar.osd toolbutton:first-child button {
     border-width: 1px;
     border-radius: 3px;
     border-style: solid;
@@ -3049,6 +3235,7 @@ toolbar.osd separator {
     border-width: 0;
 }
 
+.osd .progressbar,
 .osd progressbar {
     background-color: @osd_fg;
 }
@@ -3129,12 +3316,14 @@ toolbar.osd separator {
                                       @osd_button_bg_active_c);
 }
 
+.osd .progressbar,
 .osd progressbar,
 progressbar .osd {
     padding: 0;
     min-height: 3px;
 }
 
+.osd .progressbar trough,
 .osd progressbar trough,
 progressbar .osd trough {
     padding: 0;
@@ -3146,10 +3335,11 @@ progressbar .osd trough {
     border-radius: 0;
 }
 
+.osd .progressbar,
 .osd progressbar,
 progressbar .osd {
     border-style: none;
-    background-color: @theme_selected_bg_color;
+	background-color: alpha(shade(@theme_selected_bg_color, 1.0), 0.9);
     background-image: none;
     border-radius: 0;
 }
@@ -3198,7 +3388,7 @@ progressbar .osd {
  * GtkAssistant *
  ****************/
 
-assistant .sidebar highlight {
+assistant .sidebar .highlight {
     color: @theme_fg_color;
     font-weight: bold;
 }
@@ -3210,8 +3400,7 @@ assistant .sidebar {
     border-style: solid;
     border-color: @gtkassistant_sidebar_border_color;
     color: mix (@theme_fg_color, @theme_bg_color, 0.40);
-    background-color: shade (@theme_bg_color, 0.97);
-    /* shall we make it like sidebars in general? */
+    background-color: @sidebar_bg_color;
 }
 
 /*************
@@ -3249,6 +3438,7 @@ switch slider {
     border-style: solid;
     border-color: @switch_slider_border_color;
     padding: 2px;
+    outline-color: @curent_color;
 }
 
 switch slider:disabled {
@@ -3272,6 +3462,13 @@ iconview.view.cell:selected:focus {
     background-color: @theme_selected_bg_color;
     color: @theme_selected_fg_color;
     border-radius: 4px;
+}
+
+iconview.cell:selected:focus {
+    border-radius: 3px;
+    border-color: alpha(@theme_text_color, 0.6);
+    border-width: 1px;
+    border-style: dashed;
 }
 
 list,
@@ -3338,6 +3535,7 @@ label selection:backdrop:disabled {
 treeview {
     -GtkTreeView-vertical-separator: 0;
     -GtkTreeView-expander-size: 13;
+    outline-color: alpha(currentColor, 0.6);
 }
 
 treeview.dnd {
@@ -3345,6 +3543,10 @@ treeview.dnd {
     border-radius: 2px;
     border-width: 1px;
     border-style: solid;
+}
+
+treeview.view:selected:focus {
+	outline-color: mix(@theme_selected_fg_color, @theme_selected_bg_color, 0.30);
 }
 
 /* column-headers */
@@ -3564,7 +3766,15 @@ calendar button:disabled {
     background-color: transparent;
 }
 
-highlight,
+calendar {
+    color: @theme_fg_color;
+    text-shadow: none;
+}
+
+calendar:indeterminate {
+    color: alpha(@theme_fg_color, 0.4);
+}
+
 calendar.highlight {
     background-color: @theme_selected_bg_color;
     color: @theme_selected_fg_color;
@@ -3615,35 +3825,41 @@ entry.error:focus,
     border-width: 1px;
 }
 
-infobar:last-child,
-.info:last-child,
-.warning:last-child,
-.question:last-child,
-.error:last-child {
-    /* only apply a border on the last infobar if
-     * there's more than one packed in */
-    border-bottom-width: 1px;
+infobar,
+.info,
+.warning,
+.question,
+.error {
+    border-width: 1px;
     border-style: solid;
 }
 
+infobar {
+    border-color: shade(@border_color, 0.9);
+}
+
+.info,
 .info > * {
     background-color: @info_bg_color;
     color: @info_fg_color;
     border-color: darker(@info_bg_color);
 }
 
+.warning,
 .warning > * {
     background-color: @warning_bg_color;
     color: @warning_fg_color;
     border-color: darker(@warning_bg_color);
 }
 
+.question,
 .question > * {
     background-color: @question_bg_color;
     color: @question_fg_color;
     border-color: darker(@question_bg_color);
 }
 
+.error,
 .error > * {
     background-color: @error_bg_color;
     color: @error_fg_color;
@@ -3746,6 +3962,7 @@ decoration:backdrop {
     box-shadow: none;
 }
 
+/* workaround to avoid unwanted black frames if switching compositor on/off */
 .csd.popup decoration {
     border-radius: 0;
     box-shadow: none;
@@ -4114,11 +4331,16 @@ button.flat.link.text-button:hover:active {
  ******************/
 
 /* ie. mate-keyboard-properties option window */
-dialog scrolledwindow.frame {
+dialog > .vertical.dialog-vbox > scrolledwindow.frame {
     border-color: @border_color;
     border-style: solid;
     border-width: 1px;
     border-radius: 2px;
+}
+
+dialog > .vertical.dialog-vbox > scrolledwindow.frame > viewport.view > box.vertical > expander {
+    border-style: none;
+    background-color: transparent;
 }
 
 /* credits in GtkAbout windows */
@@ -4134,8 +4356,15 @@ dialog scrolledwindow.frame viewport .vertical expander .vertical {
     border-width: 1px;
 }
 
+/* ie. caja fm-properties-window notes tab */
+dialog > .vertical.dialog-vbox > notebook.frame > stack > scrolledwindow,
+dialog > .vertical.dialog-vbox > notebook.frame > stack > scrolledwindow.frame {
+    border-style: none;
+}
+
 /* print dialog */
 printdialog.background > box.view.vertical.dialog-vbox {
+    margin: 7px;
     background-color: shade (@theme_bg_color, 1.0);
 }
 
@@ -4154,4 +4383,3 @@ printdialog.background paper {
 dialog.background dialog-vbox.vertical .vertical {
     background: transparent;
 }
-

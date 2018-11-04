@@ -33,7 +33,13 @@
 
 /* ComboBox views */
 .caja-navigation-window toolbar.primary-toolbar combobox button.combo {
-    padding: 4px 4px;
+    padding: 5px;
+    border-image: none;
+}
+
+.caja-navigation-window toolbar.primary-toolbar combobox button.combo:hover {
+    padding: 5px;
+    box-shadow: none;
 }
 
 .caja-canvas-item {
@@ -78,37 +84,48 @@
 }
 
 .caja-navigation-window .view.caja-canvas-item:selected {
-    color: @theme_sectected_fg_color;
+    color: @theme_selected_fg_color;
 }
 
 /***************
  * mate-panel *
  ***************/
 
-.mate-panel-menu-bar,
-MatePanelApplet > menubar,
-PanelToplevel.background,
-PanelWidget,
-PanelFrame,
-PanelAppletFrame,
-MatePanelAppletFrameDBus,
-MatePanelAppletContainer,
-MatePanelApplet {
-    background-image: -gtk-gradient (linear,
-                      left top,
-                      left bottom,
-                      from (@menubar_gradient_a),
-                      color-stop (0.50, @menubar_gradient_b),
-                      to (@menubar_gradient_c));
+.mate-panel-menu-bar {
     background-color: @theme_bg_color;
     padding: 0px;
     color: @theme_fg_color;
     text-shadow: none;
 }
 
-/* workaround to avoid unwanted black frames if switching compositor on/off */
-.mate-panel-menu-bar .window-frame.csd.popup {
-    box-shadow: none;
+PanelToplevel.horizontal.top > grid {
+    border-style: outset;
+    border-width: 0px 0px 1px 0px;
+    border-color: rgba(0, 0, 0, 0.23);
+}
+
+PanelToplevel.horizontal.bottom > grid {
+    border-style: outset;
+    border-width: 1px 0px 0px 0px;
+    border-color: rgba(0, 0, 0, 0.23);
+}
+
+PanelToplevel.vertical.left > grid {
+    border-style: outset;
+    border-width: 0px 1px 0px 0px;
+    border-color: rgba(0, 0, 0, 0.23);
+}
+
+PanelToplevel.vertical.right > grid {
+    border-style: outset;
+    border-width: 0px 0px 0px 1px;
+    border-color: rgba(0, 0, 0, 0.23);
+}
+
+/* hide buttons */
+PanelToplevel > grid > button {
+    padding: 0px;
+    border-radius: 0px;
 }
 
 #PanelApplet {
@@ -120,6 +137,41 @@ PanelSeparator {
     background-image: none;
     color: shade (@theme_bg_color, 0.75);
     text-shadow: none;
+}
+
+MatePanelAppletFrameDBus > MatePanelAppletFrameDBus {
+    background-image: -gtk-scaled(url("img/panel-grid.svg"));
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: left;
+}
+
+/* outlines */
+window.background, /* selector where outlines are writen on GtkTrayIcon */
+.mate-panel-menu-bar menubar,
+.mate-panel-menu-bar PanelApplet,
+.mate-panel-menu-bar button,
+#PanelApplet > #clock-applet-button.flat.toggle,
+#PanelApplet > #showdesktop-button,
+#PanelApplet > wnck-tasklist > button,
+PanelApplet.wnck-applet .wnck-pager {
+    outline-offset: -2px;
+    outline-style: solid;
+    outline-color: shade (@theme_selected_bg_color, 0.8);
+    outline-width: 2px;
+}
+
+.mate-panel-menu-bar button {
+    -gtk-outline-radius: 3px;
+    box-shadow: none;
+    border-image: none;
+}
+
+/* main menu */
+/* set normal menubar button */
+.mate-panel-menu-bar menubar {
+    padding: 0px;
+    background-image: none;
 }
 
 /* all applets */
@@ -177,6 +229,26 @@ PanelSeparator {
                       @button_hover_gradient_c);
 }
 
+/* use only outlines if focused */
+.mate-panel-menu-bar #PanelApplet button:focus {
+    box-shadow: none;
+    border-image: none;
+}
+
+/* 1.18 changings for gtk+-3.22 warning fixes*/
+.mate-panel-menu-bar #PanelApplet #drive-button,
+.mate-panel-menu-bar #PanelApplet #drive-button:hover,
+.mate-panel-menu-bar #PanelApplet #charpick-applet-button,
+.mate-panel-menu-bar #PanelApplet #showdesktop-button:checked {
+    border-image: url("img/border.svg") 3 3 4 3 / 3px 3px 4px 3px repeat;
+    border-width: 0px;
+}
+
+/* checkboxes in applet popup menu */
+.mate-panel-menu-bar menu > menuitem > box > menuitem {
+    padding: 0px 0px 0px 4px;
+}
+
 #PanelApplet > #clock-applet-button.flat.toggle {
    background-color: transparent;
    background-image: none;
@@ -209,6 +281,12 @@ PanelSeparator {
     border-image: none;
 }
 
+/* use only outlines if focused */
+#PanelApplet > #clock-applet-button.flat.toggle:focus {
+    box-shadow: none;
+    border-image: none;
+}
+
 
 #clock-applet-button.flat.toggle > box.horizontal > label {
     font-weight: normal;
@@ -221,6 +299,11 @@ PanelSeparator {
 
 #MatePanelPopupWindow expander {
 	border-style: none;
+}
+
+/* Weird, this sets the border color of the clockmap */
+#MatePanelPopupWindow > frame > box > box > box > widget {
+    color: @border_color;
 }
 
 PanelApplet.wnck-applet .wnck-pager {
@@ -254,8 +337,7 @@ na-tray-applet {
     background-color: transparent;
     padding: 0;
     text-shadow: none;
-    -NaTrayApplet-icon-padding: 3;
-    -NaTrayApplet-icon-size: 16;
+    -NaTrayApplet-icon-padding: 1px; /*any more and outlines get cut off*/
 }
 
 /* volume applet, brightness applet */
@@ -263,7 +345,7 @@ na-tray-applet {
     background: transparent;
 }
 
-.mate-panel-applet-slider .frame {
+.mate-panel-applet-slider frame {
     background-color: @theme_bg_color;
     border-image: none;
     border-style: solid;
@@ -272,14 +354,43 @@ na-tray-applet {
     margin: 0px;
 }
 
-.mate-panel-applet-slider .frame .frame{
+.mate-panel-applet-slider frame frame {
     background-color:transparent;
     border-style: none;
     box-shadow: none;
 }
 
-.mate-panel-applet-slider .frame .button {
+.mate-panel-applet-slider frame button {
     color: @theme_fg_color;
+}
+
+/* xrandr applet */
+.mate-panel-menu-bar menuitem.xrandr-applet:disabled > box > label {
+    color: @menu_fg_color;
+    text-shadow: none;
+}
+
+/* mate-menu, mintmenu fork */
+#mate-menu.background {
+    border-color: @border_color;
+    border-style: solid;
+    border-width: 1px;
+}
+
+/* mate-indicator-applet */
+/* needed for a transparent panel */
+#fast-user-switch-applet > #fast-user-switch-menubar {
+    background-color: transparent;
+    background-image: none;
+}
+
+/* globalmenu (vala-panel-appmenu) */
+#PanelApplet > .-vala-panel-appmenu-core > scrolledwindow > viewport.frame {
+    background-color: transparent;
+}
+
+#PanelApplet > .-vala-panel-appmenu-core > scrolledwindow {
+    border-style: none;
 }
 
 /****************
@@ -451,21 +562,38 @@ MsdOsdWindow.background.osd .progressbar {
     border-width: 1px;
     border-radius: 3px;
     border-color: rgba(0,0,0,0.4);
-    background-color: @osd_scale_trough_bg_color;
+	background-color: alpha(shade(@theme_selected_bg_color, 1.0), 0.9);
 }
 
 /*****************
  * mate-terminal *
  *****************/
 
-/* override for pavu-control */
-window.background.mate-terminal > box.vertical > notebook {
+/* override settings for pavu-control */
+window.background.mate-terminal > box.vertical > notebook,
+window.background.mate-terminal > box.vertical > notebook > stack > box {
     border-style: none;
-    border-width: 0px;
+    margin: 0px;
 }
 
 /* override settings for pavu-control */
-window.background.mate-terminal > box.vertical > notebook > header.top tab,
+window.background.mate-terminal > box.vertical > notebook > header.top {
+    border-radius: 3px 0px 0px 0px;
+    margin: 0px;
+    border-style: solid;
+    border-color: @theme_bg_color;
+    border-width: 0px 0px 0px 0.1px;
+}
+
+window.background.mate-terminal > box.vertical > notebook > header.top tab {
+    border-radius: 3px 3px 0px 0px;
+    padding: 4px 2px 4px 6px;
+    margin: 0px 0px 0px -1px;
+    border-style: solid;
+    border-color: @border_color;
+    border-width: 1px;
+}
+
 window.background.mate-terminal > box.vertical > notebook > header.top tab:checked,
 window.background.mate-terminal > box.vertical > notebook > header.top tab:checked:hover {
     border-radius: 3px 3px 0px 0px;
@@ -473,6 +601,60 @@ window.background.mate-terminal > box.vertical > notebook > header.top tab:check
     margin: 0px 0px 0px -1px;
     border-style: solid;
     border-color: @border_color;
+    border-top-color: @notebook_active_tab_border;
+    border-left-color: @notebook_active_tab_border;
+    border-right-color: @notebook_active_tab_border;
     border-width: 1px;
+}
+
+/***********************
+ * mate-volume-control *
+ ***********************/
+
+/* application notebook page */
+GvcMixerDialog notebook.frame scrolledwindow {
+    border-style: none;
+}
+
+/* override previous setting */
+GvcMixerDialog notebook.frame box scrolledwindow.frame {
+    border-style: solid;
+    border-color: @border_color;
+    border-width: 1px;
+    border-radius: 2px;
+    padding: 0;
+}
+
+/***********************
+ * mate-control-center *
+ ***********************/
+
+#MyControlCenter button.flat {
+    outline-style: dashed;
+}
+
+/* mate-keyboard-layout-view, mate-keyboard-layout-chooser */
+/* this way it styles only the border of the keys, the bg of the map itself
+   use the .view class, and use old and new selectors for a while */
+matekbd-keyboard-drawing,
+.gswitchit-layout-view > box.dialog-vbox > box.vertical > widget,
+#xkb-layout-chooser > box.dialog-vbox > box.vertical > box.vertical > frame > widget {
+    background-color: shade (@theme_bg_color, 1.0);
+}
+
+#xkb-layout-chooser > box.dialog-vbox > box.vertical > box.vertical > frame > border {
+    border-radius: 0px;
+}
+
+/* fix for some maximized windows 
+   https://github.com/mate-desktop/mate-desktop/issues/291
+   FIXME Sadly pluma ignore doesn't show the maximised style class */
+
+window.background.maximized.engrampa-window > grid.horizontal > paned.horizontal > scrolledwindow.frame,
+window.background.maximized.atril-window > box.vertical > paned.horizontal > box.vertical > scrolledwindow.frame,
+window.background.pluma-window > box.vertical > paned.horizontal > paned.vertical > notebook box.vertical > scrolledwindow.frame,
+window.background.maximized.logview-window > box.vertical > paned.horizontal > box.vertical > scrolledwindow.frame,
+window.background.maximized.caja-navigation-window notebook.caja-notebook scrolledwindow.frame {
+    border-right-width: 0px;
 }
 
