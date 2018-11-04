@@ -2193,12 +2193,12 @@ scrollbar {
 
 scrollbar.vertical {
     border-width: 0px 0px 0px 1px;
-    min-width: 14px;
+    min-width: 5px;
 }
 
 scrollbar.horizontal {
     border-width: 1px 0px 0px 0px;
-    min-height: 14px;
+    min-height: 5px;
 }
 
 scrollbar trough {
@@ -2212,7 +2212,7 @@ scrolledwindow junction {
 }
 
 scrollbar.horizontal trough {
-    min-height: 14px;
+    min-height: 5px;
     border-radius: 0px;
     border-width: 0px 1px 0px 1px;
     border-image: none;
@@ -2224,7 +2224,7 @@ scrollbar.horizontal trough {
 }
 
 scrollbar.vertical trough {
-    min-width: 14px;
+    min-width: 5px;
     border-radius: 0px;
     border-width: 1px 0px 1px 0px;
     border-image: none;
@@ -2238,15 +2238,15 @@ scrollbar.vertical trough {
 /* Buttons */
 scrollbar.vertical button,
 scrollbar.vertical .button {
-    min-width: 14px;
-    min-height: 16px;
+    min-width: 5px;
+    min-height: 9px;
     padding: 1px 0px;
 }
 
 scrollbar.horizontal button,
 scrollbar.horizontal .button {
-    min-width: 16px;
-    min-height: 14px;
+    min-width: 9px;
+    min-height: 5px;
     padding: 0px 1px;
 }
 
@@ -2355,7 +2355,7 @@ scrollbar.vertical .button:hover:active {
 
 scrollbar.vertical slider,
 scrollbar.vertical .slider {
-    min-width: 14px;
+    min-width: 7px;
     min-height: 42px;
     margin: 0px -1px 0px -1px;
 }
@@ -2363,7 +2363,7 @@ scrollbar.vertical .slider {
 scrollbar.horizontal slider,
 scrollbar.horizontal .slider {
     min-width: 42px;
-    min-height: 14px;
+    min-height: 7px;
     margin: -1px 0px -1px 0px;
 }
 
