@@ -10,3 +10,9 @@ This theme uses
 - TraditionalOk from https://github.com/mate-desktop/mate-themes
 
 Use at your own risk!
+
+=== Dependencies ===
+
+Requires the gtk2-engines package
+
+    apt install gtk2-engines

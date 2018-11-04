@@ -1,17 +1,17 @@
-gtk-color-scheme = "bg_color: #f6f6f6\nfg_color: #000\nbase_color: #fff\ntext_color: #000\nselected_bg_color: #6484a4\nselected_fg_color: #fff\ntooltip_bg_color: #e5e5e5\ntooltip_fg_color: #000000\ntab_color: #ccd"
+gtk-color-scheme = "bg_color: #f6f6f6\nfg_color: #000\nbase_color: #fff\ntext_color: #000\nselected_bg_color: #6484a4\nselected_fg_color: #fff\ntooltip_bg_color: #e5e5e5\ntooltip_fg_color: #000000"
 
 style "industrial-default"
 {
-  xthickness = 0
-  ythickness = 0
+  xthickness = 1
+  ythickness = 1
 
 
   GtkWidget::interior_focus = 1
-  GtkButton::default_border = { 0, 0, 0, 0 }
-  GtkButton::default_outside_border = { 0, 0, 0, 0 }
+  GtkButton::default_border = { 1, 1, 1, 1 }
+  GtkButton::default_outside_border = { 1, 1, 1, 1 }
   GtkRange::trough_border = 0
 
-  GtkWidget::focus_padding = 0
+  GtkWidget::focus_padding = 1
 
   GtkPaned::handle_size = 7
   
@@ -31,7 +31,7 @@ style "industrial-default"
 
   GtkEntry::progress-border = { 0, 0, 0, 0 }
 
-  # GtkMenuItem::selected_shadow_type = GTK_SHADOW_IN
+  GtkMenuItem::selected_shadow_type = GTK_SHADOW_IN
 
   GtkRange::activate-slider = 1
 
@@ -43,10 +43,10 @@ style "industrial-default"
 
   # color definitions
   bg[NORMAL]		= @bg_color
-  bg[PRELIGHT]		= shade (11.1, @bg_color)
-  bg[ACTIVE]		= @tab_color #shade (10.85, @bg_color)
-  bg[SELECTED]		= mix (10.65, @selected_bg_color, @bg_color)
-  bg[INSENSITIVE]	= shade (10.85, @bg_color)
+  bg[PRELIGHT]		= shade (1.1, @bg_color)
+  bg[ACTIVE]		= shade (0.85, @bg_color)
+  bg[SELECTED]		= mix (0.65, @selected_bg_color, @bg_color)
+  bg[INSENSITIVE]	= shade (0.85, @bg_color)
 
   fg[NORMAL]		= @fg_color
   fg[PRELIGHT]		= @fg_color
@@ -106,8 +106,8 @@ style "industrial-scale"
 # Style for the entry progress bar -- ie. change the colors
 style "industrial-entry"
 {
-  xthickness = 0
-  ythickness = 0
+  xthickness = 1
+  ythickness = 1
 
   bg[SELECTED] = mix (0.4, @selected_bg_color, @base_color)
   fg[SELECTED] = @text_color
@@ -118,14 +118,14 @@ style "industrial-squared"
 {
   engine "industrial" 
   {
-    #rounded_buttons = FALSE
+    rounded_buttons = FALSE
   }
 }
 
 style "industrial-wide"
 {
-  xthickness = 0
-  ythickness = 0
+  xthickness = 1
+  ythickness = 1
 }
 
 # style to remove the border around the progress bar
@@ -144,8 +144,8 @@ style "industrial-arrows"
 # menuitems
 style "industrial-menuitem"
 {
-  xthickness = 0
-  ythickness = 0
+  xthickness = 1
+  ythickness = 1
 
   bg[PRELIGHT]  = @selected_bg_color
   bg[SELECTED]  = @selected_bg_color
@@ -155,8 +155,11 @@ style "industrial-menuitem"
 
 style "industrial-menubar"
 {
-  xthickness = 0
-  ythickness = 0
+  xthickness = 3
+  ythickness = 3
+
+  base[NORMAL]  = "#550000"
+  text[NORMAL]  = "#005500"
 }
 
 style "industrial-tree-header"
@@ -165,14 +168,14 @@ style "industrial-tree-header"
   {
     hint = "treeview-header"
   }
-  xthickness = 0
-  ythickness = 0
+  xthickness = 1
+  ythickness = 1
 }
 
 style "industrial-tooltips"
 {
-  xthickness = 0
-  ythickness = 0
+  xthickness = 2
+  ythickness = 2
   bg[NORMAL] = @tooltip_bg_color
   fg[NORMAL] = @tooltip_fg_color
 }
@@ -227,7 +230,7 @@ class "GtkWidget" style "industrial-default"
 class "GtkNotebook"   style "industrial-wide"
 class "GtkButton"     style "industrial-wide"
 class "GtkRange"      style "industrial-wide"
-class "GtkMenu"       style "industrial-wide"
+class "GtkMenu"       style "industrial-menubar"
 class "GtkFrame"      style "industrial-wide"
 class "GtkStatusbar"  style "industrial-wide"
 class "GtkEntry"      style "industrial-entry"
