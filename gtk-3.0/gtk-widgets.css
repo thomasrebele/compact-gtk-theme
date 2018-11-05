@@ -933,7 +933,7 @@ toolbar.primary-toolbar.horizontal button,
 toolbar.primary-toolbar.horizontal button:checked {
     padding: 2px;
     min-height: 16px;
-    min-width: 26px;
+    min-width: 18px;
 }
 
 button.default {
