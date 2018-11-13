@@ -448,7 +448,8 @@ undershoot.right {
 
 entry {
     border-style: solid;
-    padding: 2px;
+    padding: 0px;
+    min-height: 4px;
     color: @entry_text_color;
     background-color: @theme_base_color;
 }
@@ -869,7 +870,7 @@ scrolledwindow,
 scrolledwindow.frame {
     border-style: solid;
     border-color: @border_color;
-    border-width: 1px;
+    border-width: 0px;
     border-radius: 2px;
     padding: 0;
 }
@@ -2239,13 +2240,13 @@ scrollbar.vertical trough {
 scrollbar.vertical button,
 scrollbar.vertical .button {
     min-width: 5px;
-    min-height: 9px;
+    min-height: 5px;
     padding: 1px 0px;
 }
 
 scrollbar.horizontal button,
 scrollbar.horizontal .button {
-    min-width: 9px;
+    min-width: 5px;
     min-height: 5px;
     padding: 0px 1px;
 }
@@ -2355,7 +2356,7 @@ scrollbar.vertical .button:hover:active {
 
 scrollbar.vertical slider,
 scrollbar.vertical .slider {
-    min-width: 7px;
+    min-width: 5px;
     min-height: 42px;
     margin: 0px -1px 0px -1px;
 }
@@ -2363,7 +2364,7 @@ scrollbar.vertical .slider {
 scrollbar.horizontal slider,
 scrollbar.horizontal .slider {
     min-width: 42px;
-    min-height: 7px;
+    min-height: 5px;
     margin: -1px 0px -1px 0px;
 }
 
@@ -2769,8 +2770,10 @@ check:disabled,
 radio:disabled {
     background-color: transparent;
     border-style: none;
-    min-height: 16px;
-    min-width: 16px;
+    min-height: 12px;
+    min-width: 12px;
+	padding: 0px;
+	margin: 0px;
 }
 
 check,
