@@ -3537,7 +3537,7 @@ label selection:backdrop:disabled {
 
 treeview {
     -GtkTreeView-vertical-separator: 0;
-    -GtkTreeView-expander-size: 13;
+    -GtkTreeView-expander-size: 10;
     outline-color: alpha(currentColor, 0.6);
 }
 
@@ -3618,7 +3618,7 @@ treeview header button:last-child:active:focus {
 
 row,
 row:focus {
-   min-height: 22px;
+   min-height: 0px;
 }
 
 row:hover,
@@ -3711,8 +3711,8 @@ expander arrow:checked {
 
 /* why this weird padding, possible issue with gtk+-3.18 ? */
 expander arrow {
-    min-width: 16px;
-    min-height: 16px;
+    min-width: 10px;
+    min-height: 10px;
     padding: 0px 2px 0px 0px;
 }
 
@@ -4386,3 +4386,26 @@ printdialog.background paper {
 dialog.background dialog-vbox.vertical .vertical {
     background: transparent;
 }
+
+
+/** TODO: fix eclipse lists, works if copied into GTKInspector */
+/** compactify */
+treeview, treeview * {
+  box-shadow:     none   ;
+  text-shadow:    none   ;
+  icon-shadow:    none   ;
+  padding:        0      ;
+  margin:         0      ;
+  border-radius:  0      ;
+  outline-offset: 0      ;
+  border-width:   0      ;
+  outline-width:  0      ;
+  font-size:      9px    ;
+}
+
+
+
+GtkToolbar {
+    padding: 0px;
+}
+/** compactify end */
