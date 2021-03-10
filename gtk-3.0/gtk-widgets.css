@@ -16,6 +16,8 @@
     -gtk-icon-style: regular; /* disable symbolic icons */
 }
 
+
+
 /***************
  * Base States *
  ***************/
@@ -2325,7 +2327,7 @@ scrollbar.horizontal .button:hover:active {
                       to (@scrollbar_button_active_gradient_d));
 }
 
-scrollbar.vertical button,
+/*scrollbar.vertical button,
 scrollbar.vertical .button {
     background-image: -gtk-gradient (linear,
                       left top,
@@ -2352,7 +2354,7 @@ scrollbar.vertical .button:hover:active {
                       color-stop (0.50, @scrollbar_button_active_gradient_b),
                       color-stop (0.50, @scrollbar_button_active_gradient_c),
                       to (@scrollbar_button_active_gradient_d));
-}
+}*/
 
 scrollbar.vertical slider,
 scrollbar.vertical .slider {
@@ -4387,13 +4389,13 @@ dialog.background dialog-vbox.vertical .vertical {
     background: transparent;
 }
 
-
+/* SPECIAL FIXES */
 /** TODO: fix eclipse lists, works if copied into GTKInspector */
 /** compactify */
 treeview, treeview * {
   box-shadow:     none   ;
   text-shadow:    none   ;
-  icon-shadow:    none   ;
+  -gtk-icon-shadow:    none   ;
   padding:        0      ;
   margin:         0      ;
   border-radius:  0      ;
@@ -4408,4 +4410,22 @@ treeview, treeview * {
 GtkToolbar {
     padding: 0px;
 }
+
+
+scrollbar.vertical button,
+scrollbar.vertical .button {
+    min-width: 5px;
+    min-height: 5px;
+    padding: 1px 0px;
+}
+
+scrollbar.horizontal button,
+scrollbar.horizontal .button {
+    min-width: 5px;
+    min-height: 5px;
+    padding: 0px 1px;
+}
+
 /** compactify end */
+
+
